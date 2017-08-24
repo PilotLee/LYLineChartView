@@ -26,6 +26,10 @@
 
 @property (nonatomic, strong) UIView *redLine;
 
+@property (nonatomic, assign) LineChartDrawStyle style;
+
+@property (nonatomic, assign) BOOL hasCover;
+
 @end
 
 @implementation LYLineChartView
@@ -69,11 +73,15 @@
     self.userInteractionEnabled = YES;
 }
 
-- (void)setDataSourceWithArray:(NSArray *)sourceArr times:(NSArray*)times drawStyle:(LineChartDrawStyle)stlye;
+- (void)setDataSourceWithArray:(NSArray *)sourceArr times:(NSArray*)times drawStyle:(LineChartDrawStyle)stlye hasCover:(BOOL)hasCover;
 {
     _sourceArr = sourceArr;
 
     _times = times;
+    
+    _style = stlye;
+    
+    _hasCover = hasCover;
     
     [self getPoingArr];
 }
@@ -256,18 +264,19 @@
         });
         if (i != 0) {
             //直线连接
-//                [beizer addLineToPoint:point];
-//
-//                [bezier1 addLineToPoint:point];
             
-            //曲线连接
-            CGPoint prePoint = [[arr objectAtIndex:i-1] CGPointValue];
-            CGPoint nowPoint = [[arr objectAtIndex:i] CGPointValue];
-            
-            [beizer addCurveToPoint:nowPoint controlPoint1:CGPointMake((nowPoint.x+prePoint.x)/2, prePoint.y) controlPoint2:CGPointMake((nowPoint.x+prePoint.x)/2, nowPoint.y)];
-            
-            [bezier1 addCurveToPoint:nowPoint controlPoint1:CGPointMake((nowPoint.x+prePoint.x)/2, prePoint.y) controlPoint2:CGPointMake((nowPoint.x+prePoint.x)/2, nowPoint.y)];
-            
+            if (_style == DrawStlyeDefult) {
+                [beizer addLineToPoint:point];
+                [bezier1 addLineToPoint:point];
+            }else{
+                //曲线连接
+                CGPoint prePoint = [[arr objectAtIndex:i-1] CGPointValue];
+                CGPoint nowPoint = [[arr objectAtIndex:i] CGPointValue];
+                
+                [beizer addCurveToPoint:nowPoint controlPoint1:CGPointMake((nowPoint.x+prePoint.x)/2, prePoint.y) controlPoint2:CGPointMake((nowPoint.x+prePoint.x)/2, nowPoint.y)];
+                
+                [bezier1 addCurveToPoint:nowPoint controlPoint1:CGPointMake((nowPoint.x+prePoint.x)/2, prePoint.y) controlPoint2:CGPointMake((nowPoint.x+prePoint.x)/2, nowPoint.y)];
+            }
             
             if (i == arr.count-1) {
                 [beizer moveToPoint:point];//添加连线
@@ -315,7 +324,8 @@
     CALayer *baseLayer = [CALayer layer];
     
     
-//    [baseLayer addSublayer:gradientLayer];
+    if (_hasCover) [baseLayer addSublayer:gradientLayer];
+    
     [baseLayer setMask:shadeLayer];
     
     [self.layer addSublayer:baseLayer];

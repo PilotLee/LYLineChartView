@@ -24,7 +24,15 @@ typedef NS_ENUM(NSInteger,LineChartDrawStyle) {
 @interface LYLineChartView : UIView
 
 
-- (void)setDataSourceWithArray:(NSArray *)sourceArr times:(NSArray*)times drawStyle:(LineChartDrawStyle)stlye;
+/**
+ 初始化后给配置
+
+ @param sourceArr 数据源（可传入多维数组 内部自动转换）
+ @param times 时间标签
+ @param stlye 折线／曲线
+ @param hasCover 是否有遮罩
+ */
+- (void)setDataSourceWithArray:(NSArray *)sourceArr times:(NSArray*)times drawStyle:(LineChartDrawStyle)stlye hasCover:(BOOL)hasCover;
 
 @end
 

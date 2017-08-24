@@ -22,7 +22,7 @@
     LYLineChartView *lineChart = [[LYLineChartView alloc]initWithFrame:CGRectMake(0, 200, self.view.bounds.size.width, 250)];
     [lineChart setDataSourceWithArray:@[@[@"2",@"3",@"4",@"5",@"6",@"7",@"8"],
                                         @[@"3",@"4",@"2",@"7",@"7",@"4",@"1"],
-                                        @[@"4",@"5",@"1",@"1",@"2",@"7",@"8"]] times:@[@"2-1",@"2-2",@"2-3",@"2-4",@"2-5",@"2-6",@"2-7"] drawStyle:DrawStlyeCruve];
+                                        @[@"4",@"5",@"1",@"1",@"2",@"7",@"8"]] times:@[@"2-1",@"2-2",@"2-3",@"2-4",@"2-5",@"2-6",@"2-7"] drawStyle:DrawStlyeCruve hasCover:YES];
     [self.view addSubview:lineChart];
 }
 
